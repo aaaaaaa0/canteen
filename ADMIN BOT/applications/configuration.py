@@ -1,0 +1,6 @@
+
+
+BOT_TOKEN = '8202013075:AAGbjRP3wAe89uHJdZZiEHlmrSFqz8xL77k'
+
+
+DB_PATH = "D:\\CANTEEN BOT\\db.sqlite3"
