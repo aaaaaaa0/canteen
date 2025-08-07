@@ -496,7 +496,7 @@ async def process_new_quantity(message: Message, state: FSMContext):
 
 # ===================================================================
 # ОПЛАТА И ПОДТВЕРЖДЕНИЕ ЗАКАЗА
-# ====================================================================
+# ===================================================================
 
 
 # Кнопка [ОФОРМИТЬ ЗАКАЗ]
@@ -557,3 +557,11 @@ async def confirm_order(callback: CallbackQuery, state: FSMContext):
         reply_markup=kb.main_keyboard
     )
     await callback.answer()
+
+
+
+
+
+
+
+

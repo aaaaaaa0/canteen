@@ -475,5 +475,3 @@ async def reset_notification_after_delay(order_id: int):
 
 
 
-
-

@@ -113,7 +113,7 @@ async def add_to_cart(tg_id: int, product_id: int, quantity: int = 1):
     async with async_session() as session:
         cart_item = await session.scalar(
             select(Cart)
-            .where((Cart.user_id == user_id) & (Cart.product_id == product_id))
+            .where((Cart.user_id == user_id) & (Cart.product_id == product_id) & (Cart.order_id.is_(None)))
             )
         if cart_item:
             cart_item.quantity += int(quantity)

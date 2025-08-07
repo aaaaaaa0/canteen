@@ -26,6 +26,7 @@ async def on_startup():
     asyncio.create_task(send_check_links_loop(bot)) 
 
 
+
 if __name__ == '__main__':
     try:
         asyncio.run(dp.start_polling(bot))

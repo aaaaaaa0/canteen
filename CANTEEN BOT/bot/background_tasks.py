@@ -30,7 +30,7 @@ async def send_check_links_loop(bot: Bot):
                 try:
                     await bot.send_message(
                         chat_id=tg_id,
-                        text=f"Ваша ссылка для оплаты заказа №{order.id}: {order.total_price}₽\n\n{order.checks}"
+                        text=f"Ваша ссылка для оплаты заказа №{order.id}:  {order.total_price}₽\n\n{order.checks}"
                     )
                     await session.execute(
                         update(Order)
@@ -57,7 +57,7 @@ async def notify_all_users_loop(bot: Bot):
                     tg_id = tg_id_result.scalar_one_or_none()
                     if tg_id:
                         try:
-                            await bot.send_message(chat_id=tg_id,text=f"Ваша ссылка для оплаты заказа №{order.id}: {order.total_price}₽\n\n{order.checks}")
+                            await bot.send_message(chat_id=tg_id,text=f"Ваша ссылка для оплаты заказа №{order.id}:  {order.total_price}₽\n\n{order.checks}")
                             await session.execute(
                                 update(Order)
                                 .where(Order.id == order.id)
@@ -69,3 +69,5 @@ async def notify_all_users_loop(bot: Bot):
                         print(f"tg_id не найден для user_id {order.user_id}")
             await session.commit()
         await asyncio.sleep(10)
+
+
