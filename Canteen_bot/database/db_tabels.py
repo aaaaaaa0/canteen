@@ -1,19 +1,22 @@
 from pathlib import Path
-
-from sqlalchemy import BigInteger, String, Float, ForeignKey, text, DateTime, func
+from sqlalchemy import BigInteger, String, Float, ForeignKey, text, DateTime, func, Boolean
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from datetime import time
 
 
 # Пути и база данных
 BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = BASE_DIR / "db.sqlite3"
 
+
 # Движок и сессии
 engine = create_async_engine(
     url=f"sqlite+aiosqlite:///{DB_PATH}",
     echo=False,
 )
+
+
 async_session = async_sessionmaker(
     bind=engine,
     expire_on_commit=False  
@@ -31,6 +34,7 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
+    chat_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=True)
     phone: Mapped[str] = mapped_column(String(50), nullable=True)
     address: Mapped[str] = mapped_column(String(100), nullable=True)
@@ -68,6 +72,7 @@ class Cart(Base):
     order_id: Mapped[int] = mapped_column(ForeignKey('Orders.id'), nullable=False)
 
 
+# Заказы
 class Order(Base):
     __tablename__ = "Orders"
 
@@ -81,6 +86,26 @@ class Order(Base):
     address: Mapped[str] = mapped_column(String(100), nullable=True)
     forks: Mapped[int] = mapped_column(nullable=True)
     spoons: Mapped[int] = mapped_column(nullable=True)
+    notification: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    check_sent: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+
+
+# Админы
+class Admin(Base):
+    __tablename__ = 'Admins'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    tg_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
+    chat_id: Mapped[int] = mapped_column(BigInteger, nullable=True)
+
+# Время приёма заказов
+class WorkTime(Base):
+    __tablename__ = 'Work_Time'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    start: Mapped[time] = mapped_column(nullable=False)  
+    end: Mapped[time] = mapped_column(nullable=False)
+    stop: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 
 
 # Инициализация базы
